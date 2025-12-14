@@ -1,0 +1,43 @@
+Checkout.tsx:247  Uncaught ReferenceError: handleChange is not defined
+    at Checkout (Checkout.tsx:247:35)
+    at renderWithHooks (react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (react-dom.development.js:20103:13)
+    at beginWork (react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback2 (react-dom.development.js:4164:14)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:4213:16)
+    at invokeGuardedCallback (react-dom.development.js:4277:31)
+    at beginWork$1 (react-dom.development.js:27490:7)
+    at performUnitOfWork (react-dom.development.js:26596:12)
+    at workLoopSync (react-dom.development.js:26505:5)
+suppress-nextjs-warning.ts:7  The above error occurred in the <Checkout> component:
+
+    at Checkout (http://localhost:5173/src/pages/Checkout.tsx?t=1765727619384:37:20)
+    at ProtectedRoute (http://localhost:5173/src/router/AppRouter.tsx?t=1765727697628:43:27)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b2679b22:4092:5)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b2679b22:4531:5)
+    at main
+    at div
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b2679b22:4474:15)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b2679b22:5219:5)
+    at AppRouter
+    at CartProvider (http://localhost:5173/src/context/CartContext.tsx:29:32)
+    at PrinterProvider (http://localhost:5173/src/context/PrinterContext.tsx:62:35)
+    at AuthProvider (http://localhost:5173/src/context/AuthContext.tsx:22:32)
+    at MantineThemeProvider (http://localhost:5173/node_modules/.vite/deps/chunk-FB3QAZN4.js?v=b2679b22:3141:3)
+    at MantineProvider (http://localhost:5173/node_modules/.vite/deps/chunk-FB3QAZN4.js?v=b2679b22:3640:3)
+    at QueryClientProvider (http://localhost:5173/node_modules/.vite/deps/@tanstack_react-query.js?v=b2679b22:2726:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+console.error @ suppress-nextjs-warning.ts:7
+react-dom.development.js:12056  Uncaught ReferenceError: handleChange is not defined
+    at Checkout (Checkout.tsx:247:35)
+    at renderWithHooks (react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (react-dom.development.js:20103:13)
+    at beginWork (react-dom.development.js:21626:16)
+    at beginWork$1 (react-dom.development.js:27465:14)
+    at performUnitOfWork (react-dom.development.js:26596:12)
+    at workLoopSync (react-dom.development.js:26505:5)
+    at renderRootSync (react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (react-dom.development.js:25889:20)
+    at performSyncWorkOnRoot (react-dom.development.js:26135:20)

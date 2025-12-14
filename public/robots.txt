@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://logichub.gh/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow admin/private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/

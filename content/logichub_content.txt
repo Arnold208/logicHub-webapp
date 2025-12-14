@@ -1,0 +1,208 @@
+LOGICHUB — CORE DESCRIPTION (GLOBAL REFERENCE)
+
+LogicHub is a makerspace, innovation hub, and product development environment based in Ghana.
+We exist to help people turn ideas into real, working products.
+
+At LogicHub, students, entrepreneurs, creatives, engineers, and innovators can walk in with an idea—no matter how early—and access the tools, guidance, and environment needed to bring it to life.
+
+From concept to prototype, and from prototype to product, LogicHub provides the space, expertise, and community that make innovation practical and achievable.
+
+Our work spans digital fabrication, hardware and product development, incubation, learning programs, and impact-driven innovation.
+
+LogicHub is building the foundation for Ghana’s next generation of makers, startups, and technology-driven solutions.
+
+2. HOMEPAGE CONTENT
+Hero Section
+
+Headline
+Where Ideas Become Real Products
+
+Subheading
+LogicHub is a makerspace and innovation hub that empowers people to turn ideas into prototypes, and prototypes into real-world products.
+
+Primary Call to Action
+Explore Our Services
+
+Secondary Call to Action
+Use 3D Printing Service
+
+What Is LogicHub
+
+LogicHub is a collaborative space designed for people who want to build.
+Whether you are a student with a project idea, an entrepreneur developing a startup, or a creative exploring new possibilities, LogicHub provides the tools and support to help you move forward.
+
+We combine modern fabrication technologies, technical expertise, and a culture of learning to help innovators turn imagination into reality.
+
+Our Mission
+
+To empower innovators with the tools, knowledge, and environment needed to transform ideas into impactful products.
+
+Our Vision
+
+To become Africa’s leading makerspace and innovation hub—where young people and forward-thinking creators build solutions that shape the future.
+
+What We Do (Overview)
+
+At LogicHub, we support innovation through a range of services designed to take ideas from concept to completion.
+
+Digital fabrication services
+
+Product and hardware development
+
+Startup incubation and mentorship
+
+Learning programs and community engagement
+
+Impact-driven technology projects
+
+How It Works
+
+1. Bring Your Idea
+Start with an idea, a challenge, or a concept you want to explore.
+
+2. Build and Prototype
+Use our tools, services, and expertise to design, fabricate, and test your solution.
+
+3. Launch and Scale
+Turn your prototype into a product with support in refinement, production, and growth.
+
+Impact and Innovation
+
+LogicHub is proud to incubate and support real-world solutions.
+
+One example is Crafted Climate, a climate-focused innovation that demonstrates how ideas developed within LogicHub can grow into impactful products addressing real challenges.
+
+Makerspace and Community
+
+LogicHub is open to students, innovators, entrepreneurs, and anyone curious about building technology.
+
+We believe innovation grows faster in community—where people learn from one another, share ideas, and collaborate across disciplines.
+
+3. SERVICES PAGE CONTENT
+Services Introduction
+
+LogicHub offers a range of services designed to support innovation, fabrication, and product development.
+
+Each service can be accessed independently or combined as part of a complete idea-to-product journey.
+
+3D Printing as a Service
+
+LogicHub provides professional 3D printing services for prototyping, product development, and custom fabrication.
+
+Users can upload designs, receive instant quotes, and choose between pickup or delivery.
+
+This service is ideal for:
+
+Product prototyping
+
+Educational projects
+
+Custom parts
+
+Design validation
+
+Call to Action
+Start 3D Printing
+
+Laser Cutting and Engraving
+
+We offer laser cutting and engraving services for precise fabrication across various materials.
+
+Ideal for:
+
+Prototypes
+
+Branding and signage
+
+Custom components
+
+Creative projects
+
+Woodworking Services
+
+LogicHub supports woodworking and CNC-assisted fabrication for functional and creative builds.
+
+Ideal for:
+
+Furniture prototypes
+
+Architectural models
+
+Custom structures
+
+Educational projects
+
+Hardware and Product Development
+
+We help innovators design and build hardware products from early concepts to functional prototypes.
+
+This includes:
+
+Product design support
+
+Electronics integration
+
+Mechanical systems
+
+Testing and iteration
+
+IoT, Robotics, and AI Solutions
+
+LogicHub supports advanced technology projects involving:
+
+Internet of Things (IoT)
+
+Robotics systems
+
+Embedded hardware
+
+AI-enabled products
+
+These services are ideal for startups, research projects, and experimental innovation.
+
+Incubation and Innovation Support
+
+LogicHub provides incubation support for startups and early-stage ideas.
+
+Support includes:
+
+Technical mentorship
+
+Prototype development
+
+Product refinement
+
+Innovation guidance
+
+4. 3D PRINTING SERVICE PAGE (INTRO TEXT)
+
+LogicHub’s 3D Printing Service allows individuals and businesses to fabricate high-quality parts quickly and affordably.
+
+Upload your design, configure your print, receive a quote, and track your order—all in one place.
+
+This service is integrated into LogicHub’s broader innovation ecosystem, allowing users to move seamlessly from idea to production.
+
+5. APPOINTMENT / CONSULTATION PAGE CONTENT
+Book a Consultation
+
+Not sure where to start?
+Book a consultation with the LogicHub team to discuss your idea, design, or project.
+
+Whether you need help refining a concept or choosing the right fabrication method, we are here to guide you.
+
+6. ABOUT LOGICHUB PAGE CONTENT
+About LogicHub
+
+LogicHub was created to bridge the gap between ideas and execution.
+
+Many people have innovative ideas but lack access to the tools, guidance, or environment needed to build them. LogicHub exists to change that.
+
+By combining makerspace facilities, technical expertise, and a collaborative culture, LogicHub enables innovation that is practical, scalable, and impactful.
+
+7. FOOTER CONTENT
+
+LogicHub is a makerspace and innovation hub based in Ghana.
+
+We support innovators, students, and entrepreneurs in building products that matter.
+
+© LogicHub. All rights reserved.
