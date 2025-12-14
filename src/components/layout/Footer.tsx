@@ -10,12 +10,13 @@ export const Footer = () => {
             <div className="flex items-center space-x-3 mb-4">
               <img
                 src="/assets/images/logo.png"
-                alt="LogicHub 3D"
+                alt="LogicHub"
                 className="h-8 w-auto"
               />
             </div>
-            <p className="text-sm text-gray-400">
-              Professional 3D printing and modelling services in Ghana. Turning your ideas into reality with precision and quality.
+            <p className="text-gray-400 leading-relaxed">
+              An innovation hub and makerspace empowering creators, entrepreneurs, and innovators.
+              We provide prototyping, IoT development, robotics solutions, and 3D printing services.
             </p>
           </div>
 
@@ -68,22 +69,22 @@ export const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start space-x-2">
                 <IconMapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                <span>One Airport Square, Airport City, Accra, Ghana</span>
+                <span>Accra, Greater Accra, Ghana</span>
               </li>
               <li className="flex items-center space-x-2">
                 <IconPhone className="h-5 w-5 text-primary" />
-                <span>+233 24 123 4567</span>
+                <span>+233 302 558 653</span>
               </li>
               <li className="flex items-center space-x-2">
                 <IconMail className="h-5 w-5 text-primary" />
-                <span>info@logichub3d.com.gh</span>
+                <span>business@afrilogicsolutions.com</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; {new Date().getFullYear()} LogicHub 3D. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} LogicHub. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -68,7 +68,7 @@ export const Service3DPrinting = () => {
     {
       name: 'Sarah Johnson',
       role: 'Product Designer',
-      text: 'LogicHub 3D transformed my prototypes into reality with incredible precision. Their team is professional and delivery is always on time.',
+      text: 'LogicHub transformed my prototypes into reality with incredible precision. Their team is professional and delivery is always on time.',
       rating: 5,
     },
     {
@@ -128,25 +128,25 @@ export const Service3DPrinting = () => {
                 step: '1',
                 title: 'Upload Design',
                 description: 'Upload your STL, OBJ, or 3MF file through our easy-to-use interface',
-                image: imgPrinting,
+                image: '/content/howitworks/upload_print.png',
               },
               {
                 step: '2',
                 title: 'Configure Print',
                 description: 'Choose material, color, quality, and other print parameters',
-                image: imgPrinting,
+                image: '/content/howitworks/configure.png',
               },
               {
                 step: '3',
                 title: 'Get Quote',
                 description: 'Receive instant pricing and estimated delivery time',
-                image: imgPrinting,
+                image: '/content/howitworks/quote.png',
               },
               {
                 step: '4',
                 title: 'We Print & Deliver',
                 description: 'Your model is printed with precision and delivered to you',
-                image: imgPrinting,
+                image: 'https://ditfjx9w4x3vl.cloudfront.net/assets/artisan/2024-11-11-artisan/PC_web_Artisan.jpg',
               },
             ].map((item, idx) => (
               <Card key={idx} hover className="overflow-hidden p-0 border-0 shadow-lg">
@@ -168,7 +168,7 @@ export const Service3DPrinting = () => {
 
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">Why Choose LogicHub 3D?</h2>
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">Why Choose LogicHub?</h2>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
             We combine cutting-edge technology with expert craftsmanship to deliver exceptional results
           </p>

@@ -58,12 +58,12 @@ export const Signup = () => {
           <div className="flex justify-center mb-6">
             <img
               src="/assets/images/logo.png"
-              alt="LogicHub 3D"
+              alt="LogicHub"
               className="h-16 w-auto object-contain"
             />
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
-          <p className="text-gray-600 mt-2">Join LogicHub 3D today</p>
+          <p className="text-gray-600 mt-2">Join LogicHub today</p>
         </div>
 
         {error && (

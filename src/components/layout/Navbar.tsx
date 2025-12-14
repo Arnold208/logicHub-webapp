@@ -25,7 +25,7 @@ export const Navbar = () => {
             {/* Logo */}
             <img
               src="/assets/images/logo.png"
-              alt="LogicHub 3D"
+              alt="LogicHub"
               className="h-10 w-auto object-contain"
             />
             {/* Ghana Flag Removed as per request */}

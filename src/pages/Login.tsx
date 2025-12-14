@@ -35,12 +35,12 @@ export const Login = () => {
           <div className="flex justify-center mb-6">
             <img
               src="/assets/images/logo.png"
-              alt="LogicHub 3D"
+              alt="LogicHub"
               className="h-16 w-auto object-contain"
             />
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-          <p className="text-gray-600 mt-2">Sign in to your LogicHub 3D account</p>
+          <p className="text-gray-600 mt-2">Sign in to your LogicHub account</p>
         </div>
 
         {error && (
