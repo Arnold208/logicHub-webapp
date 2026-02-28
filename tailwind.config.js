@@ -36,6 +36,7 @@ export default {
       },
       fontFamily: {
         sans: [
+          '"Inter"',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
@@ -43,15 +44,12 @@ export default {
           '"Helvetica Neue"',
           'Arial',
           'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
         ],
         display: [
+          '"Inter"',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
-          'Roboto',
           'sans-serif',
         ],
       },

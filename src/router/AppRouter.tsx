@@ -15,6 +15,8 @@ import { ServiceIncubation } from '../pages/services/ServiceIncubation';
 import ScrollToTop from '../components/layout/ScrollToTop';
 import { Login } from '../pages/Login';
 import { Signup } from '../pages/Signup';
+import { ForgotPassword } from '../pages/ForgotPassword';
+import { Otp } from '../pages/Otp';
 import { Upload } from '../pages/Upload';
 import { ConfigurePrint } from '../pages/ConfigurePrint';
 import { Quote } from '../pages/Quote';
@@ -94,47 +96,28 @@ export const AppRouter = () => {
                 </PublicRoute>
               }
             />
+            <Route
+              path="/forgot-password"
+              element={
+                <PublicRoute>
+                  <ForgotPassword />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/otp"
+              element={
+                <PublicRoute>
+                  <Otp />
+                </PublicRoute>
+              }
+            />
             <Route path="/appointment" element={<Appointment />} />
-            <Route
-              path="/upload"
-              element={
-                <ProtectedRoute>
-                  <Upload />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/configure-print"
-              element={
-                <ProtectedRoute>
-                  <ConfigurePrint />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/quote"
-              element={
-                <ProtectedRoute>
-                  <Quote />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/checkout"
-              element={
-                <ProtectedRoute>
-                  <Checkout />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/cart"
-              element={
-                <ProtectedRoute>
-                  <Cart />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/configure-print" element={<ConfigurePrint />} />
+            <Route path="/quote" element={<Quote />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/cart" element={<Cart />} />
             <Route
               path="/orders"
               element={

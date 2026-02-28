@@ -21,3 +21,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+3DPrintingCalculator1.xlsx
+.gitignore
+build_output.txt
+formulas.txt

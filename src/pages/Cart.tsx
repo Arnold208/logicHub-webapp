@@ -45,12 +45,14 @@ export const Cart = () => {
                                 </div>
 
                                 <div className="flex flex-col sm:flex-row gap-6">
-                                    <div className="w-full sm:w-48 h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                                    <div className="w-full sm:w-48 h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 relative">
                                         <STLViewer
                                             fileData={item.file.data}
                                             mirrorX={item.mirroring.mirrorX}
                                             mirrorY={item.mirroring.mirrorY}
                                             mirrorZ={item.mirroring.mirrorZ}
+                                            color={item.config.color}
+                                            className="relative w-full h-full"
                                         />
                                     </div>
 
@@ -103,7 +105,7 @@ export const Cart = () => {
                                 </div>
                                 <div className="flex justify-between text-gray-600">
                                     <span>Delivery</span>
-                                    <span className="text-sm italic">Calculated at checkout</span>
+                                    <span className="text-sm italic text-gray-500">Paid to rider / Free pickup</span>
                                 </div>
 
                                 <div className="border-t pt-4 flex justify-between text-xl font-bold text-gray-900">

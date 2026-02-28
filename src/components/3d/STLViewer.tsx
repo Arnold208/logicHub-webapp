@@ -4,14 +4,15 @@ import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 interface STLViewerProps {
-  fileData: ArrayBuffer | null;
+  fileData: ArrayBuffer | string | null;
   mirrorX?: boolean;
   mirrorY?: boolean;
   mirrorZ?: boolean;
   color?: string;
+  className?: string;
 }
 
-export const STLViewer = ({ fileData, mirrorX = false, mirrorY = false, mirrorZ = false, color = 'White' }: STLViewerProps) => {
+export const STLViewer = ({ fileData, mirrorX = false, mirrorY = false, mirrorZ = false, color = 'White', className }: STLViewerProps) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState<{ x: string; y: string; z: string } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -30,13 +31,15 @@ export const STLViewer = ({ fileData, mirrorX = false, mirrorY = false, mirrorZ 
 
     const scene = new THREE.Scene();
     sceneRef.current = scene;
-    scene.background = new THREE.Color(0xf5f5f5);
+    // Remove background to allow CSS styling to show through
+    // scene.background = new THREE.Color(0xf5f5f5);
 
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 10000);
     camera.position.set(0, 0, 200);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Enable alpha for transparent background
     renderer.setSize(width, height);
+    renderer.setClearColor(0x000000, 0); // Transparent clear color
     mountRef.current.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -53,9 +56,6 @@ export const STLViewer = ({ fileData, mirrorX = false, mirrorY = false, mirrorZ 
     const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
     directionalLight2.position.set(-1, -1, -1);
     scene.add(directionalLight2);
-
-    const gridHelper = new THREE.GridHelper(200, 20, 0xcccccc, 0xeeeeee);
-    scene.add(gridHelper);
 
     const loader = new STLLoader();
 
@@ -126,10 +126,8 @@ export const STLViewer = ({ fileData, mirrorX = false, mirrorY = false, mirrorZ 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraZ = Math.abs(maxDim / Math.sin(fov / 2)) * 1.5;
-        camera.position.z = cameraZ;
-
-        const boxHelper = new THREE.BoxHelper(mesh, 0xff6b6b);
-        scene.add(boxHelper);
+        camera.position.set(0, 0, cameraZ);
+        controls.target.set(0, 0, 0);
 
         controls.update();
         setLoading(false);
@@ -201,15 +199,23 @@ export const STLViewer = ({ fileData, mirrorX = false, mirrorY = false, mirrorZ 
   }, [color]);
 
   return (
-    <div className="space-y-4">
-      <div ref={mountRef} className="w-full rounded-lg overflow-hidden shadow-lg border border-gray-200" />
+    <div className="space-y-4 h-full">
+      <div className={className || "relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gradient-to-br from-gray-50 to-gray-100/50 min-h-[400px]"}>
+        <div
+          ref={mountRef}
+          className="absolute inset-0 flex items-center justify-center cursor-move"
+          style={{ width: '100%', height: '100%' }}
+        />
 
-      {loading && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-3"></div>
-          <p className="text-blue-900 font-medium">Loading 3D model...</p>
-        </div>
-      )}
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
+            <div className="flex flex-col items-center">
+              <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-blue-100 border-t-blue-600 mb-3"></div>
+              <p className="text-blue-900 font-medium">Loading 3D model...</p>
+            </div>
+          </div>
+        )}
+      </div>
 
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">

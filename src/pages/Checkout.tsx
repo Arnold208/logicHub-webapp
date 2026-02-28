@@ -22,8 +22,9 @@ export const Checkout = () => {
   const { user } = useAuth();
   const { items, cartTotal, clearCart } = useCart();
 
-  const [deliveryOption, setDeliveryOption] = useState('delivery');
-  const deliveryCost = deliveryOption === 'delivery' ? 3000 : 0;
+  const [deliveryOption, setDeliveryOption] = useState('third-party');
+  // Both pickup and third-party delivery on-platform are 0 cost. The customer pays the rider directly.
+  const deliveryCost = 0;
   const total = cartTotal + deliveryCost;
 
   // Calculate estimates
@@ -34,7 +35,7 @@ export const Checkout = () => {
     return sum + (item.config.quantity * 60);
   }, 0);
 
-  const estimatedDeliveryDate = deliveryOption === 'delivery' ? '3-5 business days' : '2-3 days';
+  const estimatedDeliveryDate = deliveryOption === 'third-party' ? '2-3 days via rider' : 'Pickup in 2-3 days';
 
   const [formData, setFormData] = useState({
     fullName: user?.name || '',
@@ -163,24 +164,24 @@ export const Checkout = () => {
               </h3>
 
               <div className="space-y-3 mb-6">
-                <label className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all ${deliveryOption === 'delivery' ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50'}`}>
-                  <input type="radio" name="delivery" value="delivery" checked={deliveryOption === 'delivery'} onChange={(e) => setDeliveryOption(e.target.value)} className="w-5 h-5 text-primary mt-1" />
+                <label className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all ${deliveryOption === 'third-party' ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50'}`}>
+                  <input type="radio" name="delivery" value="third-party" checked={deliveryOption === 'third-party'} onChange={(e) => setDeliveryOption(e.target.value)} className="w-5 h-5 text-primary mt-1" />
                   <div className="ml-3 flex-1">
-                    <span className="font-semibold text-gray-900">Home Delivery (₵3,000)</span>
-                    <p className="text-sm text-gray-500">Delivered to your doorstep</p>
+                    <span className="font-semibold text-gray-900">Third-Party Delivery (Uber, Bolt, Yango)</span>
+                    <p className="text-sm text-gray-500">We ship via a secure third-party rider. Customer bears delivery cost upon arrival.</p>
                   </div>
                 </label>
 
                 <label className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all ${deliveryOption === 'pickup' ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50'}`}>
                   <input type="radio" name="delivery" value="pickup" checked={deliveryOption === 'pickup'} onChange={(e) => setDeliveryOption(e.target.value)} className="w-5 h-5 text-primary mt-1" />
                   <div className="ml-3 flex-1">
-                    <span className="font-semibold text-gray-900">Pickup (Free)</span>
-                    <p className="text-sm text-gray-500">Collect from our facility</p>
+                    <span className="font-semibold text-gray-900">Facility Pickup (Free)</span>
+                    <p className="text-sm text-gray-500">Collect your prints directly from our facility when ready.</p>
                   </div>
                 </label>
               </div>
 
-              {deliveryOption === 'delivery' && (
+              {deliveryOption === 'third-party' && (
                 <div className="border-t border-gray-100 pt-6">
                   <h4 className="font-semibold text-gray-900 mb-4">Shipping Address</h4>
 
@@ -287,14 +288,17 @@ export const Checkout = () => {
                 Payment Method
               </h3>
 
-              <div className="bg-gradient-to-r from-primary to-primary-hover rounded-lg p-6 text-white mb-4">
-                <p className="text-sm opacity-80 mb-4">Mock Payment Gateway</p>
+              <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg p-6 text-white mb-4">
+                <p className="text-sm opacity-90 mb-4 font-semibold">Pay securely via Paystack</p>
                 <div className="flex items-center justify-between mb-6">
                   <div className="text-2xl font-bold">₵{total.toLocaleString()}</div>
-                  <IconCreditCard className="h-10 w-10" />
+                  <div className="flex space-x-2">
+                    <span className="bg-white/20 px-2 py-1 rounded text-xs font-semibold">Mobile Money</span>
+                    <span className="bg-white/20 px-2 py-1 rounded text-xs font-semibold">Card</span>
+                  </div>
                 </div>
-                <p className="text-xs opacity-70">
-                  This is a demo payment system. In production, this would integrate with Paystack (Ghana) or another payment provider.
+                <p className="text-xs opacity-80">
+                  Payment will be processed securely through Paystack. (Live integration pending, using mock processor).
                 </p>
               </div>
 
@@ -334,7 +338,7 @@ export const Checkout = () => {
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Delivery</span>
-                  <span>{deliveryCost === 0 ? 'Free' : `₵${deliveryCost.toLocaleString()}`}</span>
+                  <span>{deliveryOption === 'third-party' ? 'Paid to Rider' : 'Free (Pickup)'}</span>
                 </div>
                 <div className="flex justify-between items-center text-xl font-bold text-gray-900 pt-3 border-t-2 border-gray-200">
                   <span>Total</span>

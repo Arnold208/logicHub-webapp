@@ -1,10 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply font-sans text-gray-900 bg-gray-50;
+    @apply font-sans text-gray-900 bg-gray-50 antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  .section-heading {
+    @apply text-4xl md:text-5xl font-bold text-gray-900 tracking-tight;
+  }
+
+  .section-subheading {
+    @apply text-lg text-gray-600 leading-relaxed;
+  }
+
+  .label-badge {
+    @apply inline-block text-xs font-bold tracking-widest uppercase text-primary-600 bg-primary-50 px-3 py-1 rounded-full;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .icon-container {
+    @apply inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-600;
+  }
+
+  .icon-container-lg {
+    @apply inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-50 text-primary-600;
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #0C4A6E 0%, #0A7EA4 50%, #0891B2 100%);
   }
 }
 

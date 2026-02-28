@@ -189,8 +189,8 @@ export const Upload = () => {
                 >
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center space-x-4 flex-1">
-                      <div className="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-200 shadow-inner">
-                        <STLViewer fileData={file.data} />
+                      <div className="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-200 shadow-inner relative">
+                        <STLViewer fileData={file.data} className="relative w-full h-full" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-gray-900">{file.file.name}</h3>
