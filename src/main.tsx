@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import { PrinterProvider } from './context/PrinterContext';
 import { CartProvider } from './context/CartContext';
+import { OrderProvider } from './context/OrderContext';
 import { AppRouter } from './router/AppRouter';
 import './index.css';
 import '@mantine/core/styles.css';
@@ -25,11 +26,13 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <MantineProvider>
         <AuthProvider>
-          <PrinterProvider>
-            <CartProvider>
-              <AppRouter />
-            </CartProvider>
-          </PrinterProvider>
+          <OrderProvider>
+            <PrinterProvider>
+              <CartProvider>
+                <AppRouter />
+              </CartProvider>
+            </PrinterProvider>
+          </OrderProvider>
         </AuthProvider>
       </MantineProvider>
     </QueryClientProvider>

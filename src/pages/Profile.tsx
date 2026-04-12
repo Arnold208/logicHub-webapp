@@ -1,15 +1,23 @@
+import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Card } from '../components/ui/Card';
 import { IconUser, IconMail, IconPhone, IconCalendar, IconPackage } from '@tabler/icons-react';
 
 export const Profile = () => {
-  const { user } = useAuth();
+  const { user, refreshProfile } = useAuth();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refreshProfile();
+    setRefreshing(false);
+  };
 
   const profileData = {
-    joinedDate: '2024-01-15',
-    totalOrders: 12,
-    activeOrders: 2,
-    completedOrders: 10,
+    joinedDate: user?.createdAt || new Date().toISOString(),
+    totalOrders: 0,
+    activeOrders: 0,
+    completedOrders: 0,
   };
 
   return (
@@ -50,7 +58,21 @@ export const Profile = () => {
         </div>
 
         <Card>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
+          <div className="flex justify-between items-start mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Personal Information</h2>
+            <div className="flex flex-col items-end gap-2">
+              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${user?.role === 'admin' ? 'bg-teal-100 text-teal-700' : 'bg-blue-100 text-blue-700'}`}>
+                {user?.role || 'User'}
+              </span>
+              <button
+                onClick={handleRefresh}
+                disabled={refreshing}
+                className="text-[10px] text-gray-400 hover:text-primary-600 underline font-bold uppercase tracking-widest disabled:opacity-50"
+              >
+                {refreshing ? 'Refreshing...' : 'Refresh Account Data'}
+              </button>
+            </div>
+          </div>
 
           <div className="space-y-6">
             <div className="flex items-start space-x-4">

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { createOrder } from '../api/orders';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Loader } from '../components/ui/Loader';
+import { useOrders } from '../context/OrderContext';
 import {
   IconMapPin,
   IconPhone,
@@ -21,6 +21,7 @@ export const Checkout = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { items, cartTotal, clearCart } = useCart();
+  const { addOrder } = useOrders();
 
   const [deliveryOption, setDeliveryOption] = useState('third-party');
   // Both pickup and third-party delivery on-platform are 0 cost. The customer pays the rider directly.
@@ -49,6 +50,7 @@ export const Checkout = () => {
   const [paying, setPaying] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   if (items.length === 0 && !orderComplete) {
     navigate('/cart');
@@ -64,33 +66,44 @@ export const Checkout = () => {
 
   const handlePayment = async () => {
     setPaying(true);
+    setPaymentError(null);
 
-    setTimeout(async () => {
-      try {
-        const orderData = {
-          items: items.map(item => ({
-            fileName: item.file.name,
-            material: item.config.material,
-            color: item.config.color,
-            quantity: item.config.quantity,
-            quality: item.config.quality,
-            price: item.pricing.subtotal
-          })),
-          totalPrice: total,
-          deliveryMethod: deliveryOption,
-          customerInfo: formData,
-        };
+    try {
+      const orderData = {
+        items: items.map(item => ({
+          service: '3D Printing',
+          name: item.file.name,
+          price: item.pricing.subtotal,
+          quantity: item.config.quantity,
+          config: item.config,
+          storagePath: item.file.path // Assuming we have a path from upload
+        })),
+        total: total,
+        customerName: formData.fullName,
+        customerEmail: formData.email,
+        shippingAddress: {
+          street: formData.address,
+          city: formData.city,
+          state: formData.state,
+          deliveryOption: deliveryOption
+        }
+      };
 
-        const response = await createOrder(orderData) as { data: { id: string } };
-        setOrderId(response.data.id);
+      const newOrder = await addOrder(orderData);
+
+      if (newOrder) {
+        setOrderId(newOrder.id);
         clearCart();
         setOrderComplete(true);
-      } catch (error) {
-        console.error('Order creation failed:', error);
-      } finally {
-        setPaying(false);
+      } else {
+        setPaymentError('Order creation failed. Please ensure you are logged in and try again.');
       }
-    }, 2000);
+    } catch (error: any) {
+      console.error('Order creation failed:', error);
+      setPaymentError(error?.message || 'Something went wrong. Please try again.');
+    } finally {
+      setPaying(false);
+    }
   };
 
   if (orderComplete) {
@@ -142,6 +155,29 @@ export const Checkout = () => {
         <Card className="text-center">
           <Loader size="lg" text="Processing payment..." />
           <p className="mt-6 text-gray-600">Please wait while we confirm your payment</p>
+        </Card>
+      </div>
+    );
+  }
+
+  if (paymentError) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-gray-100 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+            <span className="text-2xl">⚠️</span>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Order Failed</h2>
+          <p className="text-gray-600 mb-6 text-sm leading-relaxed">{paymentError}</p>
+          <p className="text-xs text-gray-400 mb-6">
+            This is likely a temporary issue. Please ensure you are logged in and try again. If the problem persists, the administrator needs to update the database security policies.
+          </p>
+          <button
+            onClick={() => setPaymentError(null)}
+            className="w-full px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-colors"
+          >
+            ← Try Again
+          </button>
         </Card>
       </div>
     );

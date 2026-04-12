@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/ui/Button';
-import { IconMail, IconLock, IconUser, IconPhone, IconArrowLeft } from '@tabler/icons-react';
+import { IconMail, IconLock, IconUser, IconPhone, IconArrowLeft, IconEye, IconEyeOff } from '@tabler/icons-react';
 
 import bgImage from '../assets/images/service_incubation_1765723732071.png';
 
@@ -14,8 +14,11 @@ export const Signup = () => {
     password: '',
     confirmPassword: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const { signup } = useAuth();
   const navigate = useNavigate();
 
@@ -29,6 +32,7 @@ export const Signup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess(false);
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
@@ -44,9 +48,11 @@ export const Signup = () => {
 
     try {
       await signup(formData.name, formData.email, formData.password, formData.phone);
-      navigate('/');
+      setSuccess(true);
+      // Wait a bit so user can read the message before navigating
+      setTimeout(() => navigate('/login'), 5000);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'An error occurred during signup');
+      setError(err.message || 'An error occurred during signup');
     } finally {
       setLoading(false);
     }
@@ -109,8 +115,18 @@ export const Signup = () => {
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-shake">
               {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-6 p-6 bg-green-50 border border-green-200 rounded-2xl text-green-800 text-sm shadow-sm border-l-4 border-l-green-500">
+              <p className="font-black uppercase tracking-widest mb-2">Account Created Successfully!</p>
+              <p className="font-medium text-green-700/80 leading-relaxed">
+                Please check your email (**{formData.email}**) and click the confirmation link to activate your account.
+                You will be redirected to the login page shortly.
+              </p>
             </div>
           )}
 
@@ -166,33 +182,47 @@ export const Signup = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Password</label>
-                <div className="relative">
-                  <IconLock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <div className="relative group">
+                  <IconLock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
                     placeholder="Min 6 chars"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-400 hover:text-primary transition-colors"
+                  >
+                    {showPassword ? <IconEyeOff className="h-4 w-4" /> : <IconEye className="h-4 w-4" />}
+                  </button>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Confirm</label>
-                <div className="relative">
-                  <IconLock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <div className="relative group">
+                  <IconLock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                   <input
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
                     placeholder="Re-enter"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-400 hover:text-primary transition-colors"
+                  >
+                    {showConfirmPassword ? <IconEyeOff className="h-4 w-4" /> : <IconEye className="h-4 w-4" />}
+                  </button>
                 </div>
               </div>
             </div>

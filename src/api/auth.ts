@@ -5,10 +5,27 @@ const mockUsers = [
     password: 'password123',
     name: 'John Doe',
     phone: '+234 800 123 4567',
+    role: 'user' as const,
+  },
+  {
+    id: '2',
+    email: 'admin@logichub.com',
+    password: 'adminpassword',
+    name: 'Admin User',
+    phone: '+233 24 000 0001',
+    role: 'admin' as const,
+  },
+  {
+    id: '3',
+    email: 'leslie@logichub.com',
+    password: 'adminpassword',
+    name: 'Leslie Admin',
+    phone: '+233 24 000 0002',
+    role: 'admin' as const,
   },
 ];
 
-export const login = async (email, password) => {
+export const login = async (email: string, password: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const user = mockUsers.find((u) => u.email === email && u.password === password);
@@ -23,6 +40,7 @@ export const login = async (email, password) => {
               email: user.email,
               name: user.name,
               phone: user.phone,
+              role: user.role,
             },
           },
         });
@@ -33,7 +51,7 @@ export const login = async (email, password) => {
   });
 };
 
-export const signup = async (name, email, password, phone) => {
+export const signup = async (name: string, email: string, password: string, phone: string): Promise<any> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const newUser = {
@@ -42,6 +60,7 @@ export const signup = async (name, email, password, phone) => {
         email,
         password,
         phone,
+        role: 'user' as const,
       };
       mockUsers.push(newUser);
 
@@ -54,6 +73,7 @@ export const signup = async (name, email, password, phone) => {
             email: newUser.email,
             name: newUser.name,
             phone: newUser.phone,
+            role: newUser.role,
           },
         },
       });
@@ -61,7 +81,7 @@ export const signup = async (name, email, password, phone) => {
   });
 };
 
-export const refreshToken = async (refreshToken) => {
+export const refreshToken = async (_token: string): Promise<any> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -73,7 +93,7 @@ export const refreshToken = async (refreshToken) => {
   });
 };
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (): Promise<any> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -82,6 +102,7 @@ export const getUserProfile = async () => {
           email: 'user@logichub.com',
           name: 'John Doe',
           phone: '+234 800 123 4567',
+          role: 'user',
           joinedDate: '2024-01-15',
           totalOrders: 12,
         },

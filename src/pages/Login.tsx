@@ -2,30 +2,34 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/ui/Button';
-import { IconMail, IconLock, IconArrowLeft } from '@tabler/icons-react';
+import { IconMail, IconLock, IconArrowLeft, IconEye, IconEyeOff } from '@tabler/icons-react';
 
 import bgImage from '../assets/images/service_3d_printing_1765723641692.png';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess(false);
     setLoading(true);
 
     try {
       await login(email, password);
-      navigate('/');
+      setSuccess(true);
+      setTimeout(() => navigate('/'), 1500);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid credentials. Try user@logichub.com / password123');
+      setError(err.message || 'An error occurred during login');
     } finally {
-      setLoading(false);
+      if (!success) setLoading(false);
     }
   };
 
@@ -87,8 +91,14 @@ export const Login = () => {
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-shake">
               {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm shadow-sm border-l-4 border-l-green-500 flex items-center">
+              <span className="mr-2">Welcome back! Signing you in...</span>
             </div>
           )}
 
@@ -115,16 +125,28 @@ export const Login = () => {
                   Forgot password?
                 </Link>
               </div>
-              <div className="relative">
-                <IconLock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <div className="relative group">
+                <IconLock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
                   placeholder="••••••••"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-gray-50"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? (
+                    <IconEyeOff className="h-5 w-5" />
+                  ) : (
+                    <IconEye className="h-5 w-5" />
+                  )}
+                </button>
               </div>
             </div>
 
@@ -141,14 +163,8 @@ export const Login = () => {
               </Link>
             </p>
           </div>
-
-          <div className="mt-8 p-4 bg-gray-50 border border-gray-100 rounded-xl text-xs text-gray-500 text-center">
-            <p className="font-semibold text-gray-700 mb-1">Demo access:</p>
-            <p>user@logichub.com / password123</p>
-          </div>
         </div>
       </div>
     </div>
   );
 };
-

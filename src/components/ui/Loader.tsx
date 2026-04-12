@@ -1,4 +1,4 @@
-export const Loader = ({ size = 'md', text = '' }) => {
+export const Loader = ({ size = 'md', text = '', showReset = false }) => {
   const sizes = {
     sm: 'h-6 w-6',
     md: 'h-12 w-12',
@@ -7,7 +7,7 @@ export const Loader = ({ size = 'md', text = '' }) => {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4">
-      <div className={`${sizes[size]} animate-spin`}>
+      <div className={`${sizes[size as keyof typeof sizes]} animate-spin`}>
         <svg
           className="text-blue-600"
           xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,15 @@ export const Loader = ({ size = 'md', text = '' }) => {
           ></path>
         </svg>
       </div>
-      {text && <p className="text-gray-600 text-sm">{text}</p>}
+      {text && <p className="text-gray-600 text-sm font-medium">{text}</p>}
+      {showReset && (
+        <button
+          onClick={() => { localStorage.clear(); window.location.reload(); }}
+          className="mt-2 text-[10px] text-gray-400 hover:text-red-500 underline transition-colors uppercase tracking-widest font-bold"
+        >
+          Session stuck? Click to Reset
+        </button>
+      )}
     </div>
   );
 };

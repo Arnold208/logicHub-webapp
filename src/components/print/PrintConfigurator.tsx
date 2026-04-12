@@ -127,6 +127,7 @@ export const PrintConfigurator = ({ file, onAddToCart, onCancel, remainingFiles 
                                 <STLViewer
                                     key={config.color}
                                     fileData={file.data}
+                                    fileName={file.name}
                                     mirrorX={mirroring.mirrorX}
                                     mirrorY={mirroring.mirrorY}
                                     mirrorZ={mirroring.mirrorZ}

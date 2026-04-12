@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../context/CartContext';
 import {
@@ -19,6 +19,7 @@ import {
   IconUpload,
   IconClipboardList,
   IconSettings,
+  IconLayoutDashboard
 } from '@tabler/icons-react';
 
 const services = [
@@ -33,7 +34,6 @@ const services = [
 export const Navbar = () => {
   const { user, logout } = useAuth();
   const { itemCount } = useCart();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -64,9 +64,15 @@ export const Navbar = () => {
     setIsUserOpen(false);
   }, [location.pathname]);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      setIsUserOpen(false);
+      setIsMobileOpen(false);
+      await logout();
+    } catch (err) {
+      console.error('Logout error in Navbar:', err);
+      window.location.href = '/';
+    }
   };
 
   const isActive = (path: string) => location.pathname === path;
@@ -140,12 +146,6 @@ export const Navbar = () => {
             {user && (
               <>
                 <Link
-                  to="/upload"
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive('/upload') ? 'text-primary-600 bg-primary-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
-                >
-                  Upload & Print
-                </Link>
-                <Link
                   to="/orders"
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive('/orders') ? 'text-primary-600 bg-primary-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
                 >
@@ -190,6 +190,12 @@ export const Navbar = () => {
                         <IconSettings className="h-4 w-4 text-gray-400" />
                         <span className="text-sm font-medium text-gray-700">Profile & Settings</span>
                       </Link>
+                      {user.role === 'admin' && (
+                        <Link to="/admin" className="flex items-center gap-3 px-4 py-2.5 hover:bg-teal-50 bg-teal-50/30 transition-colors group">
+                          <IconLayoutDashboard className="h-4 w-4 text-teal-600" />
+                          <span className="text-sm font-bold text-teal-700">Admin Portal</span>
+                        </Link>
+                      )}
                       <Link to="/orders" className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors">
                         <IconClipboardList className="h-4 w-4 text-gray-400" />
                         <span className="text-sm font-medium text-gray-700">My Orders</span>
@@ -268,9 +274,7 @@ export const Navbar = () => {
             <Link to="/appointment" className="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Contact</Link>
 
             {user ? (
-              <>
-                <Link to="/upload" className="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Upload & Print</Link>
-                <Link to="/orders" className="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">My Orders</Link>
+              <>                <Link to="/orders" className="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">My Orders</Link>
                 <Link to="/profile" className="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Profile & Settings</Link>
                 <div className="border-t border-gray-100 pt-2 mt-2">
                   <button

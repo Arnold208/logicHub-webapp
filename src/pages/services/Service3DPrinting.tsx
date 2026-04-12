@@ -1,24 +1,17 @@
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { PrinterContext } from '../../context/PrinterContext';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import {
   IconUpload,
   IconCalendar,
-  IconCube,
   IconUsers,
   IconClock,
   IconShield,
   IconStar,
-  IconPrinter,
   IconCheck,
 } from '@tabler/icons-react';
-import imgPrinting from '../../assets/images/service_3d_printing_1765723641692.png';
 
 export const Service3DPrinting = () => {
-  const { printers, getAvailablePrinters } = useContext(PrinterContext);
-
   const materials = [
     {
       name: 'PLA',
@@ -66,24 +59,25 @@ export const Service3DPrinting = () => {
 
   const testimonials = [
     {
-      name: 'Sarah Johnson',
+      name: 'Samuel Adranyi',
       role: 'Product Designer',
       text: 'LogicHub transformed my prototypes into reality with incredible precision. Their team is professional and delivery is always on time.',
       rating: 5,
     },
     {
-      name: 'Michael Chen',
-      role: 'Engineering Student',
-      text: 'Affordable pricing and excellent quality. Perfect for my university projects. The online interface makes ordering so easy!',
+      name: 'Fiifi Coleman',
+      role: 'Actor and business man',
+      text: 'Affordable pricing and excellent quality. Perfect for my creative and business projects. The online interface makes ordering so easy!',
       rating: 5,
     },
     {
-      name: 'Kwame Mensah',
-      role: 'Small Business Owner',
-      text: 'I use LogicHub for custom parts in my business. The consistency and quality are unmatched. Highly recommend!',
+      name: 'Elikplim Kofi Nyahe',
+      role: 'University Student',
+      text: 'Affordable pricing and excellent quality. Perfect for my university projects. The precision and attention to detail are exactly what I needed for my research!',
       rating: 5,
     },
   ];
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -146,7 +140,7 @@ export const Service3DPrinting = () => {
                 step: '4',
                 title: 'We Print & Deliver',
                 description: 'Your model is printed with precision and delivered to you',
-                image: 'https://ditfjx9w4x3vl.cloudfront.net/assets/artisan/2024-11-11-artisan/PC_web_Artisan.jpg',
+                image: '/assets/images/service_3d_printing_1765723641692.png',
               },
             ].map((item, idx) => (
               <Card key={idx} hover className="overflow-hidden p-0 border-0 shadow-lg">
@@ -192,39 +186,8 @@ export const Service3DPrinting = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">Printer Availability</h2>
-          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-            Check out our available 3D printers and their current status
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {ourPrinters.map((printer, idx) => (
-              <Card key={idx} className="overflow-hidden hover:shadow-xl transition-shadow">
-                <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
-                  <img
-                    src={printer.image}
-                    alt={printer.name}
-                    className="w-full h-full object-contain p-4"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-bold text-gray-900">{printer.name}</h3>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      Available
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-3">{printer.description}</p>
-                  <div className="text-xs text-gray-500">
-                    <span className="font-semibold">Build Volume:</span> {printer.buildVolume}
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Redundant printer section removed */}
+
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -326,45 +289,8 @@ export const Service3DPrinting = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">Printer Availability</h2>
-          <p className="text-center text-gray-600 mb-8">
-            {getAvailablePrinters()} printer{getAvailablePrinters() !== 1 ? 's' : ''} available right now
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {printers.map((printer) => (
-              <Card key={printer.id} className="text-center">
-                <IconPrinter className="h-10 w-10 mx-auto mb-3 text-gray-700" />
-                <h3 className="font-semibold text-gray-900 mb-2">{printer.name}</h3>
-                <div
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${printer.status === 'Idle'
-                    ? 'bg-green-100 text-green-700'
-                    : printer.status === 'Printing'
-                      ? 'bg-blue-100 text-blue-700'
-                      : printer.status === 'Busy'
-                        ? 'bg-yellow-100 text-yellow-700'
-                        : 'bg-gray-100 text-gray-700'
-                    }`}
-                >
-                  {printer.status}
-                </div>
-                {printer.progress > 0 && (
-                  <div className="mt-3">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${printer.progress}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-xs text-gray-600 mt-1">{printer.progress}%</p>
-                  </div>
-                )}
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Redundant printer section removed */}
+
 
       <section className="py-20 bg-gradient-to-r from-primary to-teal-800 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
@@ -374,11 +300,12 @@ export const Service3DPrinting = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/upload">
-              <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
+              <Button size="lg" variant="primary" className="bg-primary hover:bg-primary-700 text-white border-0">
                 <IconUpload className="mr-2 h-5 w-5" />
                 Start Your Project
               </Button>
             </Link>
+
             <Link to="/appointment">
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
                 <IconCalendar className="mr-2 h-5 w-5" />

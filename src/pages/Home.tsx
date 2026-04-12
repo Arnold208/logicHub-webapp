@@ -131,7 +131,7 @@ export const Home = () => {
               </span>
             </h1>
             <p className="text-xl text-gray-300 mb-10 leading-relaxed max-w-2xl">
-              LogicHub is Accra's innovation hub — providing 3D printing, laser cutting, CNC woodworking, hardware development, IoT, and incubation services under one roof.
+              LogicHub is Accra's innovation hub, providing 3D printing, laser cutting, CNC woodworking, hardware development, IoT, and incubation services under one roof.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

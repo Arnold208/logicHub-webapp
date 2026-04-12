@@ -1,211 +1,109 @@
-import { useState, useEffect } from 'react';
-import { getOrders, reorder } from '../api/orders';
+import { useOrders } from '../context/OrderContext';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
-import { Loader } from '../components/ui/Loader';
+import { useNavigate } from 'react-router-dom';
 import {
   IconPackage,
-  IconClock,
-  IconCheck,
-  IconRefresh,
-  IconPrinter,
-  IconAlertCircle,
+  IconTruck
 } from '@tabler/icons-react';
 
 export const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [reordering, setReordering] = useState(null);
-
-  useEffect(() => {
-    loadOrders();
-  }, []);
-
-  const loadOrders = async () => {
-    try {
-      const response = await getOrders();
-      setOrders(response.data.orders);
-    } catch (error) {
-      console.error('Failed to load orders:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleReorder = async (orderId) => {
-    setReordering(orderId);
-    try {
-      await reorder(orderId);
-      await loadOrders();
-    } catch (error) {
-      console.error('Reorder failed:', error);
-    } finally {
-      setReordering(null);
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Completed':
-        return 'bg-green-100 text-green-700 border-green-200';
-      case 'Printing':
-        return 'bg-blue-100 text-blue-700 border-blue-200';
-      case 'Slicing':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'Queued':
-        return 'bg-gray-100 text-gray-700 border-gray-200';
-      default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'Completed':
-        return <IconCheck className="h-5 w-5" />;
-      case 'Printing':
-        return <IconPrinter className="h-5 w-5" />;
-      case 'Slicing':
-        return <IconClock className="h-5 w-5" />;
-      case 'Queued':
-        return <IconAlertCircle className="h-5 w-5" />;
-      default:
-        return <IconPackage className="h-5 w-5" />;
-    }
-  };
+  const { orders, loading } = useOrders();
+  const navigate = useNavigate();
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center">
-        <Loader text="Loading your orders..." />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">Syncing Production Cloud...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12">
+    <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">My Orders</h1>
-            <p className="text-gray-600 text-lg">Track and manage your print jobs</p>
+            <h1 className="text-4xl font-black text-gray-900 mb-2">My Orders</h1>
+            <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">Track your projects in real-time</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="bg-white rounded-lg px-4 py-2 shadow-md">
-              <p className="text-sm text-gray-600">Total Orders</p>
-              <p className="text-2xl font-bold text-blue-600">{orders.length}</p>
-            </div>
+          <div className="bg-white rounded-2xl px-6 py-3 shadow-sm border border-gray-100">
+            <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Total Jobs</p>
+            <p className="text-3xl font-black text-primary">{orders.length}</p>
           </div>
         </div>
 
         {orders.length === 0 ? (
-          <Card className="text-center py-12">
-            <IconPackage className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No orders yet</h3>
-            <p className="text-gray-600 mb-6">Start by uploading your first 3D model</p>
-            <Button onClick={() => (window.location.href = '/upload')}>Upload Model</Button>
+          <Card className="text-center py-20 border-none shadow-sm">
+            <IconPackage className="h-20 w-20 text-gray-200 mx-auto mb-6" />
+            <h3 className="text-2xl font-black text-gray-900 mb-2">No orders found</h3>
+            <p className="text-gray-500 font-medium mb-8">Ready to start your next big project?</p>
+            <Button size="lg" onClick={() => navigate('/upload')}>Upload Model</Button>
           </Card>
         ) : (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 gap-6">
             {orders.map((order) => (
-              <Card key={order.id} hover>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                  <div className="lg:col-span-8">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-xl font-bold text-gray-900">{order.fileName}</h3>
-                          <span
-                            className={`inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(
-                              order.status
-                            )}`}
-                          >
-                            {getStatusIcon(order.status)}
-                            <span>{order.status}</span>
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600">Order ID: {order.id}</p>
-                      </div>
+              <Card key={order.id} className="p-0 overflow-hidden border-none shadow-sm hover:shadow-md transition-all group">
+                <div className="grid grid-cols-1 lg:grid-cols-12">
+                  {/* Status Bar */}
+                  <div className={`lg:col-span-1 flex items-center justify-center py-4 lg:py-0 ${order.status === 'Completed' ? 'bg-teal-500' :
+                    order.status === 'Printing/Crafting' ? 'bg-blue-500' :
+                      'bg-amber-500'
+                    }`}>
+                    <div className="text-white transform lg:-rotate-90 font-black uppercase tracking-[0.2em] text-[10px] whitespace-nowrap">
+                      {order.status}
                     </div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div>
-                        <p className="text-xs text-gray-600 mb-1">Material</p>
-                        <p className="font-semibold text-gray-900">{order.material}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-gray-600 mb-1">Color</p>
-                        <p className="font-semibold text-gray-900">{order.color}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-gray-600 mb-1">Quantity</p>
-                        <p className="font-semibold text-gray-900">{order.quantity}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-gray-600 mb-1">Price</p>
-                        <p className="font-semibold text-blue-600">₵{order.price.toLocaleString()}</p>
-                      </div>
-                    </div>
-
-                    {order.status === 'Printing' && order.printer && (
-                      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-blue-900">
-                            Printing on {order.printer}
-                          </span>
-                          <span className="text-sm font-bold text-blue-900">{order.progress}%</span>
-                        </div>
-                        <div className="w-full bg-blue-200 rounded-full h-2">
-                          <div
-                            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                            style={{ width: `${order.progress}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    )}
                   </div>
 
-                  <div className="lg:col-span-4 flex flex-col justify-between">
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Ordered</span>
-                        <span className="font-medium text-gray-900">{order.orderedDate}</span>
+                  {/* Content */}
+                  <div className="lg:col-span-11 p-6 md:p-8 flex flex-col md:flex-row justify-between gap-8 bg-white">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <span className="font-mono text-xs font-black text-primary bg-primary/10 px-2 py-0.5 rounded tracking-tighter">
+                          {order.id}
+                        </span>
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                          Ordered {new Date(order.createdAt).toLocaleDateString()}
+                        </span>
                       </div>
-                      {order.completedDate && (
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600">Completed</span>
-                          <span className="font-medium text-gray-900">{order.completedDate}</span>
+
+                      <h3 className="text-2xl font-black text-gray-900 mb-6">
+                        {order.items.length === 1 ? order.items[0].name : `${order.items.length} Items Order`}
+                      </h3>
+
+                      <div className="flex flex-wrap gap-4">
+                        <div className="bg-gray-50 px-4 py-2 rounded-xl">
+                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Price</p>
+                          <p className="font-black text-gray-900">₵{order.total.toLocaleString()}</p>
                         </div>
-                      )}
+                        <div className="bg-gray-50 px-4 py-2 rounded-xl">
+                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Items</p>
+                          <p className="font-black text-gray-900">{order.items.reduce((s, i) => s + i.quantity, 0)} Units</p>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col justify-center gap-3 min-w-[200px]">
                       <Button
-                        variant="outline"
-                        size="sm"
+                        variant="primary"
                         fullWidth
-                        onClick={() => alert('View details for ' + order.id)}
+                        className="shadow-lg shadow-primary/20"
+                        onClick={() => navigate(`/orders/track/${order.id}`)}
                       >
-                        View Details
+                        <IconTruck className="h-5 w-5 mr-2" />
+                        Track Progress
                       </Button>
-                      {order.status === 'Completed' && (
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          fullWidth
-                          onClick={() => handleReorder(order.id)}
-                          disabled={reordering === order.id}
-                        >
-                          {reordering === order.id ? (
-                            'Reordering...'
-                          ) : (
-                            <>
-                              <IconRefresh className="h-4 w-4 mr-2" />
-                              Reorder
-                            </>
-                          )}
-                        </Button>
-                      )}
+                      <Button
+                        variant="white"
+                        fullWidth
+                        className="border-gray-100 text-gray-500 font-bold hover:bg-gray-50"
+                        onClick={() => alert('Viewing Invoice')}
+                      >
+                        Download Invoice
+                      </Button>
                     </div>
                   </div>
                 </div>

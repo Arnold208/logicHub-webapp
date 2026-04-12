@@ -6,6 +6,7 @@ export interface CartItem {
         name: string;
         size: number;
         data: string | ArrayBuffer | null;
+        path?: string;
     };
     mirroring: {
         mirrorX: boolean;

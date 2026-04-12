@@ -48,6 +48,7 @@ export const Cart = () => {
                                     <div className="w-full sm:w-48 h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 relative">
                                         <STLViewer
                                             fileData={item.file.data}
+                                            fileName={item.file.name}
                                             mirrorX={item.mirroring.mirrorX}
                                             mirrorY={item.mirroring.mirrorY}
                                             mirrorZ={item.mirroring.mirrorZ}

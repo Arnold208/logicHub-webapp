@@ -9,6 +9,8 @@ import { SuccessModal } from '../components/ui/SuccessModal';
 import { IconUpload, IconCheck, IconSettings } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import { PrintConfigurator } from '../components/print/PrintConfigurator';
+import { useAuth } from '../hooks/useAuth';
+import { supabase } from '../lib/supabase';
 
 interface UploadedFile {
   id: string;
@@ -61,14 +63,38 @@ export const Upload = () => {
     setConfiguringFile(uploadedFile);
   };
 
-  const handleAddToCart = (config: any, pricing: any) => {
-    if (configuringFile) {
+  const { user } = useAuth();
+
+  const handleAddToCart = async (config: any, pricing: any) => {
+    if (!configuringFile) return;
+
+    if (!user) {
+      alert('Please log in to add items to your cart.');
+      navigate('/login');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // 1. Upload to Supabase Storage
+      const fileExt = configuringFile.file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `${user.id}/${fileName}`;
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('stls')
+        .upload(filePath, configuringFile.file);
+
+      if (uploadError) throw uploadError;
+
+      // 2. Add to Cart with the storage path
       addToCart({
         id: configuringFile.id,
         file: {
           name: configuringFile.file.name,
           size: configuringFile.file.size,
           data: configuringFile.data,
+          path: uploadData.path,
         },
         mirroring: config.mirroring,
         config: {
@@ -98,15 +124,18 @@ export const Upload = () => {
       );
 
       if (remainingFiles.length === 0) {
-        // All files configured - show success modal
         setShowSuccessModal(true);
       } else {
-        // Auto-open next file configurator
         const nextFile = remainingFiles[0];
         setTimeout(() => {
           setConfiguringFile(nextFile);
         }, 300);
       }
+    } catch (err: any) {
+      console.error('Upload failed:', err);
+      alert('Failed to upload file. Please check your connection and try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,7 +163,13 @@ export const Upload = () => {
         <Card className="mb-8 hover:shadow-xl transition-shadow duration-300">
           <Dropzone
             onDrop={handleDrop}
-            accept={['.stl', '.obj', '.3mf']}
+            accept={{
+              'model/stl': ['.stl'],
+              'application/sla': ['.stl'],
+              'model/obj': ['.obj'],
+              'model/3mf': ['.3mf'],
+              'application/vnd.ms-package.3dmanufacturing-3dmodel+xml': ['.3mf']
+            }}
             maxSize={50 * 1024 * 1024}
             className="border-2 border-dashed border-gray-300 rounded-xl p-12 hover:border-primary hover:bg-gray-50 transition-all cursor-pointer"
           >
@@ -190,7 +225,11 @@ export const Upload = () => {
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center space-x-4 flex-1">
                       <div className="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-200 shadow-inner relative">
-                        <STLViewer fileData={file.data} className="relative w-full h-full" />
+                        <STLViewer
+                          fileData={file.data}
+                          fileName={file.file.name}
+                          className="relative w-full h-full"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-gray-900">{file.file.name}</h3>
